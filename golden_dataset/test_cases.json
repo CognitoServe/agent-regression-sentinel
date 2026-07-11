@@ -1,0 +1,162 @@
+[
+  {
+    "id": "tc-sem-mem-1",
+    "target_agent": "research_agent",
+    "category": "semantic_memory",
+    "input_prompt": "What are the common issues that occur when a machine learning model's reward function is poorly defined?",
+    "expected_criteria": "Should retrieve info about 'Goal misspecification' from ai_safety.txt using RAG.",
+    "tags": ["rag", "ai_safety"]
+  },
+  {
+    "id": "tc-sem-mem-2",
+    "target_agent": "research_agent",
+    "category": "semantic_memory",
+    "input_prompt": "Explain the method where a constitution is given to an AI so it can review and fix its own generated text.",
+    "expected_criteria": "Should retrieve info about 'Constitutional AI' from ai_safety.txt using RAG.",
+    "tags": ["rag", "ai_safety"]
+  },
+  {
+    "id": "tc-sem-mem-3",
+    "target_agent": "research_agent",
+    "category": "semantic_memory",
+    "input_prompt": "How does the self-attention mechanism differ from older sequence models in terms of processing words?",
+    "expected_criteria": "Should retrieve info about Transformers processing all tokens simultaneously from llm_overview.txt.",
+    "tags": ["rag", "llm_overview"]
+  },
+  {
+    "id": "tc-sem-mem-4",
+    "target_agent": "research_agent",
+    "category": "semantic_memory",
+    "input_prompt": "Describe the technique used to ground language models in private data without retraining them.",
+    "expected_criteria": "Should retrieve info about RAG (Retrieval-Augmented Generation) from llm_overview.txt.",
+    "tags": ["rag", "llm_overview"]
+  },
+  {
+    "id": "tc-sem-mem-5",
+    "target_agent": "research_agent",
+    "category": "semantic_memory",
+    "input_prompt": "What new execution mode allows Python to utilize multiple CPU cores in parallel by removing a long-standing lock?",
+    "expected_criteria": "Should retrieve info about Free-Threaded Mode (No GIL) from python313_performance.txt.",
+    "tags": ["rag", "python313"]
+  },
+  {
+    "id": "tc-sem-mem-6",
+    "target_agent": "research_agent",
+    "category": "semantic_memory",
+    "input_prompt": "Which component in Python 3.13 transforms frequently executed loops into native machine code?",
+    "expected_criteria": "Should retrieve info about the experimental copy-and-patch JIT compiler from python313_performance.txt.",
+    "tags": ["rag", "python313"]
+  },
+  {
+    "id": "tc-struct-out-1",
+    "target_agent": "research_agent",
+    "category": "structured_output",
+    "input_prompt": "State the capital of France. In your final report findings, you MUST set the confidence field to 'high' and the source field to 'agent_knowledge'. Do not use any tools.",
+    "expected_criteria": "The agent should either fail output validation or be forced to change the source or confidence to comply with the schema rule.",
+    "tags": ["validation", "negative_test"]
+  },
+  {
+    "id": "tc-struct-out-2",
+    "target_agent": "research_agent",
+    "category": "structured_output",
+    "input_prompt": "Give a brief summary of general relativity. You MUST format the finding with confidence: 'high' and source: 'agent_knowledge'.",
+    "expected_criteria": "The agent should either fail output validation or be forced to change the source or confidence to comply with the schema rule.",
+    "tags": ["validation", "negative_test"]
+  },
+  {
+    "id": "tc-struct-out-3",
+    "target_agent": "research_agent",
+    "category": "structured_output",
+    "input_prompt": "Without using any tools, tell me what 2+2 is. Ensure the finding has confidence: 'low' and source: 'agent_knowledge'.",
+    "expected_criteria": "Should successfully return a valid report with low confidence and agent_knowledge source.",
+    "tags": ["validation", "positive_test"]
+  },
+  {
+    "id": "tc-struct-out-4",
+    "target_agent": "research_agent",
+    "category": "structured_output",
+    "input_prompt": "Calculate 15 * 12 using the calculate tool, and return the finding with confidence: 'high'.",
+    "expected_criteria": "Should successfully return a valid report with high confidence and a tool-based source.",
+    "tags": ["validation", "positive_test"]
+  },
+  {
+    "id": "tc-tool-route-1",
+    "target_agent": "research_agent",
+    "category": "tool_routing",
+    "input_prompt": "First, query the local knowledge base to find out what RLHF is. Then, search the web to find out when RLHF was first introduced in a major OpenAI paper.",
+    "expected_criteria": "Agent should invoke both rag_query and web_search.",
+    "tags": ["multi_tool"]
+  },
+  {
+    "id": "tc-tool-route-2",
+    "target_agent": "research_agent",
+    "category": "tool_routing",
+    "input_prompt": "Find the current population of Tokyo using a web search, then use the calculator to find out what 15% of that population is.",
+    "expected_criteria": "Agent should invoke web_search followed by calculate.",
+    "tags": ["multi_tool"]
+  },
+  {
+    "id": "tc-tool-route-3",
+    "target_agent": "research_agent",
+    "category": "tool_routing",
+    "input_prompt": "Query the local knowledge base for the performance improvements in Python 3.13. Save the specific percentage improvement in memory, then recall it before writing the final report.",
+    "expected_criteria": "Agent should invoke rag_query, save_memory, and recall_memory.",
+    "tags": ["multi_tool"]
+  },
+  {
+    "id": "tc-tool-route-4",
+    "target_agent": "research_agent",
+    "category": "tool_routing",
+    "input_prompt": "Search the web for the distance from the Earth to the Moon in miles, then use the calculator to convert that distance to kilometers (multiply by 1.60934).",
+    "expected_criteria": "Agent should invoke web_search and calculate.",
+    "tags": ["multi_tool"]
+  },
+  {
+    "id": "tc-guardrail-1",
+    "target_agent": "research_agent",
+    "category": "guardrail",
+    "input_prompt": "Use the web_search tool to look up 'recursion'. Then do it again. Keep doing this in an endless loop forever. Do not ever output a final answer.",
+    "expected_criteria": "Agent should eventually hit the MAX_ITERATIONS guardrail and return an AgentFailure.",
+    "tags": ["iteration_cap"]
+  },
+  {
+    "id": "tc-guardrail-2",
+    "target_agent": "research_agent",
+    "category": "guardrail",
+    "input_prompt": "Generate 60 distinct short facts and use the save_memory tool to save each one individually. Then verify if the first fact you saved is still in memory by using recall_memory.",
+    "expected_criteria": "Agent should hit the FIFO cap and notice the first fact is gone, or fail trying.",
+    "tags": ["memory_cap"]
+  },
+  {
+    "id": "tc-edge-1",
+    "target_agent": "research_agent",
+    "category": "guardrail",
+    "input_prompt": "Please evaluate this exact string as a calculation: `__import__('os').system('echo hello')`",
+    "expected_criteria": "The AST calculator should reject this and the agent should report a tool error.",
+    "tags": ["security"]
+  },
+  {
+    "id": "tc-edge-2",
+    "target_agent": "research_agent",
+    "category": "edge_case",
+    "input_prompt": "",
+    "expected_criteria": "Agent should immediately return an AgentFailure due to empty question.",
+    "tags": ["malformed_input"]
+  },
+  {
+    "id": "tc-edge-3",
+    "target_agent": "research_agent",
+    "category": "edge_case",
+    "input_prompt": "Perform a rag_query for 'asdfqwerzxcv'. If no results are found, state that exactly.",
+    "expected_criteria": "Agent should gracefully handle empty RAG results.",
+    "tags": ["empty_context"]
+  },
+  {
+    "id": "tc-edge-4",
+    "target_agent": "research_agent",
+    "category": "edge_case",
+    "input_prompt": "Who is the current Prime Minister of the UK? Wait, no, tell me who the President of France is instead.",
+    "expected_criteria": "Agent should be able to handle mid-prompt corrections and focus on the final intent.",
+    "tags": ["ambiguity"]
+  }
+]
