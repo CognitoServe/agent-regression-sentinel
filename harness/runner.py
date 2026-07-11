@@ -72,3 +72,4 @@ def run_suite(target_agent: str, git_commit: str = "unknown"):
         
     print("-" * 50)
     print(f"Run {run_id} completed. Results saved to DB.")
+    return run_id

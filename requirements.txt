@@ -1,4 +1,9 @@
 pydantic>=2.0.0
+pytest
+streamlit
+pandas
+plotly
+python-dotenv
 httpx>=0.24.0
 pyyaml>=6.0
 fastapi>=0.100.0
