@@ -5,10 +5,6 @@ A production-style eval harness that catches regressions in LLM agents by runnin
 ## Why this exists
 LLM agents silently break when you change prompts, models, or underlying code. A change intended to fix a bug in tool routing might subtly destroy semantic memory capabilities. This harness solves this by treating agent evaluation as a CI/CD engineering problem. It provides a reliable, repeatable, and automated way to catch regressions before they hit production by running a deterministic evaluation pipeline across various code versions.
 
-## Demo
-![Eval Harness Regression Viewer](docs/screenshots/regression_viewer.png)
-*The regression viewer catching 9 real regressions when tools were disabled in a test run.*
-
 ## What it does
 - Runs a suite of 20 test cases against an LLM agent over HTTP.
 - Scores each output with two independent layers: deterministic structural checks (fast, free) and an LLM-as-judge (Claude Haiku, cross-vendor to avoid self-preference bias).
